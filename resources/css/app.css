@@ -1,0 +1,10 @@
+/* Please note this document will be updated as time goes by. Thank you */
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
