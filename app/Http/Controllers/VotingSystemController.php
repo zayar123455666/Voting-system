@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\candidates;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class VotingSystemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function Home()
     {
         return inertia('Home');
     }
+
+   
 
     /**
      * Show the form for creating a new resource.
@@ -21,6 +25,16 @@ class VotingSystemController extends Controller
     {
         //
     }
+
+   // Make sure this import exists
+
+public function vote()
+{
+    return Inertia::render('components/Vote', [
+        'candidates' => candidates::where('gender', 'male')->get()
+    ]);
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -33,9 +47,14 @@ class VotingSystemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(candidates $id)
     {
-        //
+        return Inertia::render('components/Show', [  'candidate' => [
+        'id' => $id->id,
+        'name' => $id->name,
+        'bio' => $id->bio,
+    ]
+        ]);
     }
 
     /**

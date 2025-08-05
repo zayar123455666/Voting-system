@@ -27,7 +27,12 @@ Route::post('/login',[SessionController::class,'login']);
 Route::post('/signup',[SessionController::class,'signup']);
 Route::post('/logout',[SessionController::class,'logout']);
 
-Route::get('/',[VotingSystemController::class,'index']);
+Route::get('/',[VotingSystemController::class,'Home'])->name('home');
+
+Route::get('/vote',[VotingSystemController::class,'vote'])->name('vote');
+
+
+Route::get('/show/{id}',[VotingSystemController::class,'show'])->name('show');
 
 
 

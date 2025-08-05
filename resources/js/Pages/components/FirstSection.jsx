@@ -8,11 +8,12 @@ gsap.registerPlugin(SplitText);
 const FirstSection = () => {
   const titleRef = useRef();
    const subtitleRef = useRef();
+   const btn=useRef();
 
   useGSAP(() => {
     const splittitle = new SplitText(titleRef.current, { type: "words" });
     const splitpara=new SplitText(subtitleRef.current, { type: "lines" });
-     
+  
 
     gsap.from(splittitle.words, {
       y: 100,
@@ -30,6 +31,17 @@ const FirstSection = () => {
       delay:1,
       ease: "power4.out",
     });
+gsap.fromTo(btn.current, {
+  opacity: 0,
+  y: 50,
+}, {
+  opacity: 1,
+  y: 0,
+  duration: 1.5,
+  ease: "power4.out",
+  delay: 2, // optional, to stagger after previous animations
+});
+
 
   }, []);
 
@@ -63,7 +75,15 @@ const FirstSection = () => {
           Make your voice heard! Support your favorite male and female candidates
           by casting your vote. You can vote only once, so choose wisely!
         </div>
-     
+        
+
+       <a href="/vote" className="w-full flex justify-center">
+        <button ref={btn}>
+          <span className="text-lg font-semibold text-white bg-blue-600 px-6 py-3 rounded-md hover:bg-blue-700 transition duration-300">
+            Vote Now
+          </span>
+        </button>
+       </a>
     </div>
           
           <div>
