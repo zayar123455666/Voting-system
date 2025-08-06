@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\candidates;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class CandidateController extends Controller
@@ -14,10 +16,17 @@ class CandidateController extends Controller
       
 public function index()
 {
-    $candidates = candidates::all();
+    $candidates = candidates::latest()->get();
+
+    $maleCount = candidates::where('gender', 'male')->count();
+    $femaleCount = candidates::where('gender', 'female')->count();
+    $userCount = User::count();
 
     return Inertia::render('admin/AllCandidates', [
-        'candidates' => $candidates
+        'candidates' => $candidates,
+        'maleCount' => $maleCount,
+        'femaleCount' => $femaleCount,
+        'userCount' => $userCount,
     ]);
 }
 
@@ -59,7 +68,7 @@ public function index()
 
     \App\Models\candidates::create($validated); // make sure model name is correct
 
-    return redirect()->back()->with('success', 'Candidate added!');
+    return redirect()->route('admin.AllCandidates')->with('success', 'Candidate added!');
 }
 
 
@@ -74,24 +83,61 @@ public function index()
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   
+public function edit($id)
+{
+    $candidate = candidates::findOrFail($id);
+    return Inertia::render('admin/EditCandidates', [
+        'candidate' => $candidate
+    ]);
+}
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+  
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'gender' => 'required|in:male,female',
+        'bio' => 'nullable|string',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    $candidate = candidates::findOrFail($id);
+    $candidate->name = $request->name;
+    $candidate->gender = $request->gender;
+    $candidate->bio = $request->bio;
+
+    if ($request->hasFile('image')) {
+        if ($candidate->image_path) {
+            Storage::delete('public/' . $candidate->image_path);
+        }
+
+        $path = $request->file('image')->store('candidates', 'public');
+        $candidate->image_path = $path;
     }
+
+    $candidate->save();
+
+    return redirect()->route('admin.AllCandidates')->with('success', 'Candidate updated successfully!');
+}
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+   public function destroy($id)
+{
+    $candidate = candidates::findOrFail($id);
+
+    if ($candidate->image_path) {
+        Storage::delete('public/' . $candidate->image_path);
     }
+
+    $candidate->delete();
+
+    return back()->with('success', 'Candidate deleted successfully.');
+}
+
 }

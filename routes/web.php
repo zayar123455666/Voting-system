@@ -34,6 +34,12 @@ Route::get('/',[VotingSystemController::class,'Home'])->name('home');
 Route::get('/vote',[VotingSystemController::class,'vote'])->name('vote');
 
 
+Route::prefix('admin')->group(function () {
+    Route::get('/candidates/{id}/edit', [CandidateController::class, 'edit']);
+    Route::put('/candidates/{id}', [CandidateController::class, 'update']);
+    Route::delete('/candidates/{id}', [CandidateController::class, 'destroy']);
+});
+
 Route::get('/show/{id}',[VotingSystemController::class,'show'])->name('show');
 
 
@@ -41,7 +47,7 @@ Route::post('/candidates', [CandidateController::class, 'store']);
 
 Route::get('/addCandidates', [CandidateController::class, 'add'])->name('addCandidates');
 
-Route::get('/candidates', [CandidateController::class, 'index']);
+Route::get('/candidates', [CandidateController::class, 'index'])->name('admin.AllCandidates');
 
 
 
