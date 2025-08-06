@@ -37,7 +37,7 @@ gsap.fromTo(btn.current, {
 }, {
   opacity: 1,
   y: 0,
-  duration: 1.5,
+  duration: 1,
   ease: "power4.out",
   delay: 2, // optional, to stagger after previous animations
 });

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin;
+use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\VotingSystemController;
@@ -33,6 +35,18 @@ Route::get('/vote',[VotingSystemController::class,'vote'])->name('vote');
 
 
 Route::get('/show/{id}',[VotingSystemController::class,'show'])->name('show');
+
+
+Route::post('/candidates', [CandidateController::class, 'store']);
+
+Route::get('/addCandidates', [CandidateController::class, 'add'])->name('addCandidates');
+
+Route::get('/candidates', [CandidateController::class, 'index']);
+
+
+
+
+
 
 
 
