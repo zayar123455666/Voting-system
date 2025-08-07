@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\candidates;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +14,18 @@ class VotingSystemController extends Controller
      */
     public function Home()
     {
-        return inertia('Home');
+        $candidates = candidates::count();
+
+    $maleCount = candidates::where('gender', 'male')->count();
+    $femaleCount = candidates::where('gender', 'female')->count();
+    $userCount = User::count();
+
+    return Inertia::render('Home', [
+        'candidates' => $candidates,
+        'maleCount' => $maleCount,
+        'femaleCount' => $femaleCount,
+        'userCount' => $userCount,
+    ]);
     }
 
    

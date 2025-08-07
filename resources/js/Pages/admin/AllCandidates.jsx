@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { usePage } from '@inertiajs/react';
 import { Link, router } from '@inertiajs/react';
+import CountUp from 'react-countup';
 
 const AllCandidates = () => {
   const { candidates, maleCount, femaleCount, userCount } = usePage().props;
@@ -26,15 +27,39 @@ const AllCandidates = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white p-6 rounded shadow text-center">
           <h2 className="text-xl font-semibold text-gray-700">Total Users</h2>
-          <p className="text-3xl font-bold text-purple-600">{userCount}</p>
+          <p className="text-3xl font-bold text-purple-600">
+            <CountUp
+              end={userCount}
+              duration={6}
+              start={0}
+              separator=','
+              useEasing={true}
+              redraw={false}
+            />
+          </p>
         </div>
         <div className="bg-white p-6 rounded shadow text-center">
           <h2 className="text-xl font-semibold text-gray-700">Male Candidates</h2>
-          <p className="text-3xl font-bold text-blue-600">{maleCount}</p>
+          <p className="text-3xl font-bold text-blue-600"> <CountUp
+              end={maleCount}
+              duration={6}
+              start={0}
+              separator=','
+              useEasing={true}
+              redraw={false}
+            /></p>
         </div>
         <div className="bg-white p-6 rounded shadow text-center">
           <h2 className="text-xl font-semibold text-gray-700">Female Candidates</h2>
-          <p className="text-3xl font-bold text-pink-600">{femaleCount}</p>
+          <p className="text-3xl font-bold text-pink-600"> 
+            <CountUp
+              end={femaleCount}
+              duration={6}
+              start={0}
+              separator=','
+              useEasing={true}
+              redraw={false}
+            /></p>
         </div>
       </div>
 
